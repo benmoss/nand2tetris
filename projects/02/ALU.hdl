@@ -48,5 +48,28 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-    // Put your code here.
+    // create negated versions of x and y
+    Not16(in=x, out=negatedx);
+    Not16(in=y, out=negatedy);
+    // mux the negated versions with the negate flags to get either the negated or the regular version
+    Mux4Way16(a=x, b=false, c=negatedx, d=true, sel[0]=zx, sel[1]=nx, out=finalx);
+    Mux4Way16(a=y, b=false, c=negatedy, d=true, sel[0]=zy, sel[1]=ny, out=finaly);
+
+    // create an added and a anded version of x & y, and then mux the result based on f
+    Add16(a=finalx, b=finaly, out=added);
+    And16(a=finalx, b=finaly, out=anded);
+    Mux16(a=anded, b=added, sel=f, out=result);
+
+    // negate the result of above and mux it based on the no flag
+    Not16(in=result, out=negated);
+    Mux16(a=result, b=negated, sel=no, out=out, out[0..7]=out7, out[8..15]=out15, out[15]=negative);
+
+    // determine if the entire out is zero
+    Or8Way(in=out7, out=any7);
+    Or8Way(in=out15, out=any15);
+    Or(a=any7, b=any15, out=any);
+    Xor(a=any, b=true, out=zr);
+
+    // determine if the first bit is a 1, and thus negative
+    And(a=negative, b=true, out=ng);
 }
