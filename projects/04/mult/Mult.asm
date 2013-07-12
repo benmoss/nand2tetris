@@ -7,3 +7,33 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[3], respectively.)
 
 // Put your code here.
+
+@i // a counter
+M=0
+@2 // we store the result in R2
+M=0
+(LOOP)
+  @i
+  D=M // set D to our counter
+  @0
+  D=M-D // set D to R0 - counter
+  @END
+  D;JEQ // END if D=0
+
+  @1
+  D=M // set D to R1
+  @2
+  D=D+M // set D to R1 + R2
+  M=D // store R1+R1 into R2
+
+  @i
+  D=M
+  D=D+1 // increment counter
+  M=D
+
+  @LOOP
+  0;JMP
+
+(END)
+  @END
+  0;JMP
