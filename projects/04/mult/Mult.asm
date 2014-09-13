@@ -23,13 +23,10 @@ M=0
   @1
   D=M // set D to R1
   @2
-  D=D+M // set D to R1 + R2
-  M=D // store R1+R1 into R2
+  M=D+M // set R2 to R1 + R2
 
   @i
-  D=M
-  D=D+1 // increment counter
-  M=D
+  M=M+1 // increment counter
 
   @LOOP
   0;JMP

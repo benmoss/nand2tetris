@@ -17,7 +17,7 @@
   M=D // initialize it to the top left pixel of the screen
 
 (LOOP)
-  @24576 // keyboard input
+  @KBD // keyboard input
   D=M
   @WHITE
   D;JEQ
@@ -26,14 +26,14 @@
 
 (WHITE)
   @pixel
-  A=M // set current pixel address to A
+  //A=M // set current pixel address to A
   M=0 // white it out
   @NEXT
   0;JMP
 
 (BLACK)
   @pixel
-  A=M // set current pixel address to A
+  //A=M // set current pixel address to A
   M=-1 // black it out
   @NEXT
   0;JMP
@@ -42,7 +42,7 @@
   @pixel
   D=M+1
   M=D // set pixel to pixel + 1
-  @24576
+  @KBD
   D=A-D
   @START
   D;JEQ
